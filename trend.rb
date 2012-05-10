@@ -23,11 +23,12 @@ loop do
 					quote = @tk.quote(ticker)
 					price = quote['last']
 					trend = quote['trend']
+					open = quote['opn']
 
-					puts "#{ticker} :: #{price} :: #{trend} @ #{time}"
+					puts "#{ticker} :: #{price} :: #{open} :: #{trend} @ #{time}"
 
 					File.open("data.txt", "a+") do |f|
-						f.write "#{ticker} :: #{price} :: #{trend} :: #{time}\n"
+						f.write "#{ticker} :: #{price} :: #{open} :: #{trend} :: #{time}\n"
 					end
 				end
 			end
