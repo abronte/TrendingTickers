@@ -25,10 +25,10 @@ loop do
 					trend = quote['trend']
 					open = quote['opn']
 
-					puts "#{ticker} :: #{price} :: #{open} :: #{trend} @ #{time}"
+					puts "#{ticker},#{time},#{price},#{open}"
 
-					File.open("data.txt", "a+") do |f|
-						f.write "#{ticker} :: #{price} :: #{open} :: #{trend} :: #{time}\n"
+					File.open("data.csv", "a+") do |f|
+						f.write "#{ticker},#{time},#{price},#{open}"
 					end
 				end
 			end
@@ -36,6 +36,7 @@ loop do
 			puts "Oops"
 		end
 	else 
+		stocks = {}
 		puts "Market not open"
 	end
 
