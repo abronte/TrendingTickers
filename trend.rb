@@ -63,7 +63,7 @@ loop do
 					end
 
 					#stop trading this stock
-					stocks.delete(q['symbol'])
+					tickers.delete(q['symbol'])
 				end
 			end
 		end
