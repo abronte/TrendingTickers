@@ -3,7 +3,8 @@ require 'nokogiri'
 require 'open-uri'
 require './tradeking.rb'
 
-stocks = {}
+trending = {}
+bought = {}
 tickers = []
 
 `rm data.txt`
@@ -22,18 +23,17 @@ loop do
 				doc.xpath("//div[@id='trending-container']//a").each do |a|
 					ticker = a.content.gsub("$", "")
 
-					if !stocks[ticker]
+					if !trending[ticker]
+						trending[ticker] = Time.now
 						time = Time.now
 						quote = @tk.quote(ticker)
-						price = quote['last']
-						open = quote['opn']
+						price = quote['last'].to_f
+						open = quote['opn'].to_f
 
 						#BUY BUY BUY
-						if(((price.to_f-open.to_f)/price.to_f)*100 > 1.5)
+						if(((price-open)/price)*100 > 1.5)
 							tickers << ticker
-							stocks[ticker] = price.to_f
-						else
-							stocks[ticker] = "nope"
+							bought[ticker] = price
 						end
 
 						puts "#{ticker},#{time},#{price},#{open}"
@@ -52,7 +52,7 @@ loop do
 
 			quotes.each do |q|
 				price = q['last'].to_f
-				bought = stocks[q['symbol']]
+				bought = bought[q['symbol']]
 
 				#SELL SELL SELL
 				if q['hi'].to_f - q['last'].to_f <= 0.5 && bought < price
@@ -68,7 +68,7 @@ loop do
 			end
 		end
 	else 
-		stocks = {}
+		trending = {}
 		puts "Market not open"
 	end
 
