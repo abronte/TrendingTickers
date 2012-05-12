@@ -55,7 +55,7 @@ loop do
 				bought = bought[q['symbol']]
 
 				#SELL SELL SELL
-				if q['hi'].to_f - q['last'].to_f <= 0.5 && bought < price
+				if q['hi'].to_f - q['last'].to_f <= 0.05 && bought < price
 					profit = (price * 100) - (bought * 100)
 
 					File.open("sales.log", "a+") do |f|
